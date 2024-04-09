@@ -25,24 +25,29 @@ func HomeDir() string {
 			log.Fatalf("HomeDir: %s (while handling %s)", e, err)
 		}
 	}
+
 	return home
 }
 
 // Replace ~ with the current user's home dir
 func ExpandHome(fragments ...string) string {
 	home := HomeDir()
+
 	res := path.Join(fragments...)
 	if strings.HasPrefix(res, "~/") || res == "~" {
 		res = home + strings.TrimPrefix(res, "~")
 	}
+
 	return res
 }
 
 // Return a path relative to the user home config dir
 func ConfigPath(paths ...string) string {
 	res := filepath.Join(paths...)
+
 	if !filepath.IsAbs(res) {
 		var config string
+
 		if runtime.GOOS == "darwin" {
 			config = os.Getenv("XDG_CONFIG_HOME")
 			if config == "" {
@@ -55,7 +60,9 @@ func ConfigPath(paths ...string) string {
 				config = ExpandHome("~/.config")
 			}
 		}
+
 		res = filepath.Join(config, res)
 	}
+
 	return res
 }
