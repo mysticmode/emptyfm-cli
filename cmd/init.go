@@ -8,11 +8,6 @@ import (
 	"github.com/mysticmode/emptyfm-cli/lib"
 )
 
-var (
-	LangStore    lib.Store
-	CountryStore lib.Store
-)
-
 func init() {
 	configPath := lib.ConfigPath("emptyfm-cli", "config.yml")
 
@@ -23,17 +18,15 @@ func init() {
 	if err != nil {
 		log.Fatalf("error saving config changes: %v", err)
 	}
-
-	LangStore, CountryStore = parse()
 }
 
-func parse() (langStore lib.Store, countryStore lib.Store) {
-	err := langStore.Parser("./iso-639-lang.json")
+func ParseLibrary(lang, countrycode []byte) (langStore lib.Store, countryStore lib.Store) {
+	err := langStore.Parser(lang)
 	if err != nil {
 		log.Fatalf("error occured when parsing language JSON file: %v", err)
 	}
 
-	err = countryStore.Parser("./iso-3166-1-alpha2-countrycode.json")
+	err = countryStore.Parser(countrycode)
 	if err != nil {
 		log.Fatalf("Error occured when parsing country JSON file: %v", err)
 	}

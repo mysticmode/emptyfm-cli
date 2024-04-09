@@ -2,7 +2,6 @@ package lib
 
 import (
 	"encoding/json"
-	"os"
 )
 
 type Store struct {
@@ -18,13 +17,8 @@ func reverseMap(m map[string]string) map[string]string {
 	return n
 }
 
-func (store *Store) Parser(path string) error {
-	fileBytes, err := os.ReadFile(path)
-	if err != nil {
-		return err
-	}
-
-	err = json.Unmarshal(fileBytes, &store.Mapper)
+func (store *Store) Parser(fileBytes []byte) error {
+	err := json.Unmarshal(fileBytes, &store.Mapper)
 	if err != nil {
 		return err
 	}
