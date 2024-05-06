@@ -1,4 +1,4 @@
-module github.com/mysticmode/emptyfm-cli
+module github.com/mysticmode/efm
 
 go 1.22
 
